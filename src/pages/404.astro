@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Seite nicht gefunden — Nina Karolin Nüchter';
+const description = 'Diese Seite existiert nicht oder wurde verschoben.';
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <section class="bg-surface">
+    <div
+      class="mx-auto flex min-h-[60vh] max-w-(--container-narrow) flex-col items-start justify-center px-4 py-20 sm:px-6"
+    >
+      <p class="font-serif text-6xl text-primary-strong">404</p>
+      <h1 class="mt-4 font-serif text-3xl text-primary-strong">Seite nicht gefunden</h1>
+      <p class="mt-4 max-w-md text-lg text-ink-soft">
+        Die Seite, die Sie suchen, existiert nicht oder wurde verschoben. Vielleicht hilft einer
+        dieser Wege weiter.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a
+          href="/"
+          class="rounded-md bg-primary px-6 py-3.5 text-base font-semibold text-ink-on-primary transition-colors hover:bg-primary-strong"
+        >
+          Zur Startseite
+        </a>
+        <a
+          href="/kontakt"
+          class="rounded-md border border-primary px-6 py-3.5 text-base font-semibold text-primary-strong transition-colors hover:bg-primary-soft"
+        >
+          Kontakt aufnehmen
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

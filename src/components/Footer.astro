@@ -1,0 +1,55 @@
+---
+import { site, footerLegalNav } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-surface-alt">
+  <div class="mx-auto max-w-(--container-max) px-4 py-12 sm:px-6">
+    <div class="flex flex-col gap-8 sm:flex-row sm:justify-between">
+      <div>
+        <p class="font-serif text-lg text-primary-strong">{site.name}</p>
+        <p class="mt-2 max-w-sm text-sm text-ink-soft">{site.claim}</p>
+        <p class="mt-4 text-sm text-ink-muted">
+          {site.address.city} · {site.address.region}
+        </p>
+      </div>
+
+      <nav aria-label="Rechtliches" class="flex flex-col gap-2 text-sm sm:items-end">
+        {
+          footerLegalNav.map((item) => (
+            <a href={item.href} class="text-ink-soft transition-colors hover:text-primary">
+              {item.label}
+            </a>
+          ))
+        }
+        <button
+          type="button"
+          id="open-cookie-settings"
+          class="text-left text-ink-soft transition-colors hover:text-primary sm:text-right"
+        >
+          Cookie-Einstellungen
+        </button>
+        <a
+          href={site.linkedinUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-ink-soft transition-colors hover:text-primary"
+        >
+          LinkedIn
+        </a>
+      </nav>
+    </div>
+
+    <p class="mt-10 border-t border-border pt-6 text-xs text-ink-muted">
+      © {year}
+      {site.name}. Alle Rechte vorbehalten.
+    </p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('open-cookie-settings')?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('nkn:open-consent-settings'));
+  });
+</script>

@@ -1,0 +1,46 @@
+{
+  "name": "nina-nuechter-ki-beratung",
+  "version": "1.0.0",
+  "description": "Marketing-Website für die KI-Beratung von Nina Karolin Nüchter",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nina-nue/NKN.git"
+  },
+  "author": "Nina Karolin Nüchter",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/eb-garamond": "^5.2.7",
+    "@fontsource/inter": "^5.2.8",
+    "@lucide/astro": "^0.577.0",
+    "@tailwindcss/vite": "^4.3.2",
+    "astro": "^5.18.2",
+    "tailwindcss": "^4.3.2",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.7.0",
+    "eslint-plugin-astro": "^1.7.0",
+    "globals": "^17.7.0",
+    "prettier": "^3.9.5",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript-eslint": "^8.63.0"
+  }
+}

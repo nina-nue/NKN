@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StanceSection from '../components/StanceSection.astro';
+import Qualifications from '../components/Qualifications.astro';
+import { site } from '../data/site';
+import { buildPersonSchema } from '../lib/structuredData';
+
+const title = 'Über mich — Nina Karolin Nüchter';
+const description =
+  'Organisationspsychologin, Dozentin und Doktorandin zum Thema KI und Wohlbefinden im Arbeitskontext. KI-Beratung für den Mittelstand mit dem Blick der Organisationspsychologie, Standort Duisburg.';
+const jsonLd = [buildPersonSchema()];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <section class="border-b border-border bg-surface">
+    <div class="mx-auto max-w-(--container-max) px-4 py-16 sm:px-6 sm:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-strong">Über mich</p>
+      <h1 class="mt-3 max-w-2xl font-serif text-4xl text-primary-strong sm:text-5xl">
+        {site.name}
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg text-ink-soft">
+        M.Sc. International Management & Psychology mit Schwerpunkt Arbeits- und
+        Organisationspsychologie, zertifiziert in „Digitale Innovation und KI-Anwendung" (IHK),
+        Dozentin, Doktorandin zum Thema Unsicherheit und Wohlbefinden im Arbeitskontext in Bezug auf
+        KI. Standort Duisburg, Niederrhein.
+      </p>
+      <p class="mt-4 max-w-2xl text-lg text-ink-soft">
+        Zur KI-Beratung bin ich nicht über die Technik gekommen, sondern über die Frage, wie
+        Menschen in Organisationen mit Veränderung und Unsicherheit umgehen. Genau das untersuche
+        ich auch in meiner Promotion — mit Blick auf KI im Arbeitskontext. Die Beratung ist die
+        praktische Seite derselben Frage.
+      </p>
+    </div>
+  </section>
+
+  <StanceSection />
+  <Qualifications />
+
+  <section class="bg-surface">
+    <div class="mx-auto max-w-(--container-max) px-4 py-16 text-center sm:px-6">
+      <h2 class="font-serif text-2xl text-primary-strong sm:text-3xl">Lernen wir uns kennen</h2>
+      <p class="mx-auto mt-3 max-w-xl text-ink-soft">
+        Im Erstgespräch schauen wir gemeinsam, ob und wo KI bei Ihnen aktuell sinnvoll ist.
+      </p>
+      <a
+        href="/kontakt"
+        class="mt-6 inline-block rounded-md bg-primary px-6 py-3.5 text-base font-semibold text-ink-on-primary transition-colors hover:bg-primary-strong"
+      >
+        Kostenfreies Erstgespräch
+      </a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,180 @@
+---
+import { nav, site } from '../data/site';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 border-b border-border bg-surface/95 backdrop-blur">
+  <div class="mx-auto flex max-w-(--container-max) items-center justify-between px-4 py-4 sm:px-6">
+    <a
+      href="/"
+      class="font-serif text-lg text-primary-strong transition-colors hover:text-primary sm:text-xl"
+    >
+      {site.name}
+    </a>
+
+    <nav aria-label="Hauptnavigation" class="hidden md:block">
+      <ul class="flex items-center gap-7">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                data-nav-link
+                data-nav-href={item.href}
+                aria-current={currentPath === item.href ? 'page' : undefined}
+                class="text-sm font-medium text-ink-soft transition-colors hover:text-primary aria-[current=page]:text-primary-strong"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a
+      href="/#kontakt"
+      class="hidden rounded-md bg-primary px-4 py-2 text-sm font-semibold text-ink-on-primary transition-colors hover:bg-primary-strong md:inline-block"
+    >
+      Erstgespräch
+    </a>
+
+    <button
+      type="button"
+      id="menu-toggle"
+      class="inline-flex items-center justify-center rounded-md p-2 text-primary-strong md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Menü öffnen"
+    >
+      <svg
+        id="menu-icon-open"
+        width="26"
+        height="26"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M4 7h16M4 12h16M4 17h16"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"></path>
+      </svg>
+      <svg
+        id="menu-icon-close"
+        width="26"
+        height="26"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        class="hidden"
+      >
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        ></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    aria-label="Mobile Navigation"
+    class="hidden border-t border-border bg-surface px-4 pb-6 md:hidden"
+  >
+    <ul class="flex flex-col gap-1 pt-4">
+      {
+        nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              data-nav-link
+              data-nav-href={item.href}
+              class="block rounded-md px-3 py-3 text-base font-medium text-ink-soft transition-colors hover:bg-primary-soft hover:text-primary-strong"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="mt-2">
+        <a
+          href="/#kontakt"
+          class="block rounded-md bg-primary px-3 py-3 text-center text-base font-semibold text-ink-on-primary"
+        >
+          Erstgespräch
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  function closeMenu() {
+    menu?.classList.add('hidden');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Menü öffnen');
+    iconOpen?.classList.remove('hidden');
+    iconClose?.classList.add('hidden');
+  }
+
+  function openMenu() {
+    menu?.classList.remove('hidden');
+    toggle?.setAttribute('aria-expanded', 'true');
+    toggle?.setAttribute('aria-label', 'Menü schließen');
+    iconOpen?.classList.add('hidden');
+    iconClose?.classList.remove('hidden');
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      closeMenu();
+      toggle.focus();
+    }
+  });
+
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+
+  // Aktiver Nav-Zustand je Scrollposition (nur auf der Startseite relevant)
+  const sections = ['ablauf', 'leistungen', 'ueber-mich', 'preise', 'faq', 'kontakt']
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]'));
+
+  if (sections.length > 0 && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            navLinks.forEach((link) => {
+              const matches = link.dataset.navHref === `/#${id}`;
+              if (matches) {
+                link.setAttribute('aria-current', 'page');
+              } else {
+                link.removeAttribute('aria-current');
+              }
+            });
+          }
+        }
+      },
+      { rootMargin: '-40% 0px -50% 0px' },
+    );
+    sections.forEach((section) => observer.observe(section));
+  }
+</script>

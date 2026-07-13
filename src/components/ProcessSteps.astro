@@ -1,0 +1,57 @@
+---
+import { phases } from '../data/phases';
+---
+
+<section
+  id="ablauf"
+  class="scroll-mt-20 border-b border-border bg-surface"
+  aria-labelledby="ablauf-heading"
+>
+  <div class="mx-auto max-w-(--container-max) px-4 py-20 sm:px-6">
+    <div class="max-w-2xl" data-reveal>
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-strong">
+        Wie ich arbeite
+      </p>
+      <h2 id="ablauf-heading" class="mt-3 font-serif text-3xl text-primary-strong sm:text-4xl">
+        Vier Phasen, ein roter Faden
+      </h2>
+      <p class="mt-4 text-lg text-ink-soft">
+        Jede Phase baut auf der vorherigen auf. Sie können an jeder Stelle einsteigen — aber am Ende
+        zählt, dass die Einführung nicht bei der Schulung endet.
+      </p>
+    </div>
+
+    <ol class="relative mt-14 grid gap-10 lg:grid-cols-4 lg:gap-6">
+      <div
+        class="absolute left-[1.65rem] top-0 hidden h-full w-px bg-border lg:left-0 lg:right-0 lg:top-[1.65rem] lg:block lg:h-px lg:w-full"
+        aria-hidden="true"
+      >
+      </div>
+
+      {
+        phases.map((phase) => (
+          <li data-reveal class="relative flex gap-5 lg:flex-col lg:gap-4">
+            <span
+              class="relative z-10 flex h-[3.3rem] w-[3.3rem] shrink-0 items-center justify-center rounded-full border-2 border-primary bg-surface font-serif text-lg text-primary-strong"
+              aria-hidden="true"
+            >
+              {phase.number}
+            </span>
+            <div class="pb-2 lg:pb-0">
+              <h3 class="font-serif text-xl text-primary-strong">{phase.title}</h3>
+              <p class="mt-2 text-ink-soft">{phase.summary}</p>
+              <ul class="mt-3 space-y-1.5">
+                {phase.details.map((detail) => (
+                  <li class="flex items-start gap-2 text-sm text-ink-muted">
+                    <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                    {detail}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

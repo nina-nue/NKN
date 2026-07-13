@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ProblemBlocks from '../components/ProblemBlocks.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import ServicesGrid from '../components/ServicesGrid.astro';
+import StanceSection from '../components/StanceSection.astro';
+import Qualifications from '../components/Qualifications.astro';
+import PricingSection from '../components/PricingSection.astro';
+import FaqSection from '../components/FaqSection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { site } from '../data/site';
+import { buildProfessionalServiceSchema, buildFaqSchema } from '../lib/structuredData';
+
+const description = site.description;
+const jsonLd = [buildProfessionalServiceSchema(), buildFaqSchema()];
+---
+
+<BaseLayout title={site.title} description={description} jsonLd={jsonLd}>
+  <Hero />
+  <ProblemBlocks />
+  <ProcessSteps />
+  <ServicesGrid />
+  <StanceSection />
+  <Qualifications />
+  <PricingSection />
+  <FaqSection />
+  <ContactSection />
+</BaseLayout>

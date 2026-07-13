@@ -1,0 +1,259 @@
+---
+import { site } from '../data/site';
+
+const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+---
+
+<form id="contact-form" class="space-y-5" novalidate data-mailto-target={site.email}>
+  <input type="hidden" name="access_key" value={web3formsKey} />
+  <input type="hidden" name="subject" value="Neue Anfrage über die Website" />
+  <input type="hidden" name="from_name" value={site.name} />
+  <!-- Honeypot: für Menschen unsichtbar, Bots füllen es häufig aus. Web3Forms
+       verwirft Einsendungen mit ausgefülltem "botcheck" automatisch. -->
+  <div class="absolute -left-[9999px]" aria-hidden="true">
+    <label for="botcheck">Bitte leer lassen</label>
+    <input type="checkbox" id="botcheck" name="botcheck" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="name" class="block text-sm font-medium text-ink">Name *</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        autocomplete="name"
+        class="mt-1.5 w-full rounded-md border border-border bg-surface-raised px-4 py-2.5 text-ink placeholder:text-ink-muted focus:border-primary"
+      />
+      <p class="mt-1 hidden text-sm text-error" data-error-for="name">
+        Bitte geben Sie Ihren Namen an.
+      </p>
+    </div>
+
+    <div>
+      <label for="email" class="block text-sm font-medium text-ink">E-Mail *</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        autocomplete="email"
+        class="mt-1.5 w-full rounded-md border border-border bg-surface-raised px-4 py-2.5 text-ink placeholder:text-ink-muted focus:border-primary"
+      />
+      <p class="mt-1 hidden text-sm text-error" data-error-for="email">
+        Bitte geben Sie eine gültige E-Mail-Adresse an.
+      </p>
+    </div>
+
+    <div>
+      <label for="company" class="block text-sm font-medium text-ink">Unternehmen</label>
+      <input
+        type="text"
+        id="company"
+        name="company"
+        autocomplete="organization"
+        class="mt-1.5 w-full rounded-md border border-border bg-surface-raised px-4 py-2.5 text-ink placeholder:text-ink-muted focus:border-primary"
+      />
+    </div>
+
+    <div>
+      <label for="phone" class="block text-sm font-medium text-ink">Telefon</label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        autocomplete="tel"
+        class="mt-1.5 w-full rounded-md border border-border bg-surface-raised px-4 py-2.5 text-ink placeholder:text-ink-muted focus:border-primary"
+      />
+    </div>
+  </div>
+
+  <div>
+    <label for="message" class="block text-sm font-medium text-ink">Nachricht *</label>
+    <textarea
+      id="message"
+      name="message"
+      rows="5"
+      required
+      class="mt-1.5 w-full rounded-md border border-border bg-surface-raised px-4 py-2.5 text-ink placeholder:text-ink-muted focus:border-primary"
+    ></textarea>
+    <p class="mt-1 hidden text-sm text-error" data-error-for="message">
+      Bitte teilen Sie mir kurz Ihr Anliegen mit.
+    </p>
+  </div>
+
+  <div>
+    <div class="flex items-start gap-3">
+      <input
+        type="checkbox"
+        id="consent"
+        name="consent"
+        required
+        class="mt-1 h-4 w-4 shrink-0 accent-[var(--color-primary)]"
+      />
+      <label for="consent" class="text-sm text-ink-soft">
+        Ich habe die <a href="/datenschutz" class="underline underline-offset-2 hover:text-primary"
+          >Datenschutzerklärung</a
+        > gelesen und stimme der Verarbeitung meiner Daten zu Kontaktzwecken zu. *
+      </label>
+    </div>
+    <p class="mt-1 hidden text-sm text-error" data-error-for="consent">
+      Bitte stimmen Sie der Datenverarbeitung zu, damit ich antworten kann.
+    </p>
+  </div>
+
+  <div
+    id="form-status"
+    role="status"
+    aria-live="polite"
+    class="hidden rounded-md border p-4 text-sm"
+  >
+  </div>
+
+  <div class="flex flex-wrap items-center gap-4">
+    <button
+      type="submit"
+      id="submit-button"
+      class="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3.5 text-base font-semibold text-ink-on-primary transition-colors hover:bg-primary-strong disabled:cursor-not-allowed disabled:opacity-70"
+    >
+      <span data-button-label>Nachricht senden</span>
+    </button>
+    <p class="text-xs text-ink-muted">* Pflichtfelder</p>
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const statusBox = document.getElementById('form-status');
+  const submitButton = document.getElementById('submit-button') as HTMLButtonElement | null;
+  const buttonLabel = submitButton?.querySelector('[data-button-label]');
+
+  if (form && statusBox && submitButton && buttonLabel) {
+    const mailtoTarget = form.dataset.mailtoTarget ?? '';
+    let isSubmitting = false;
+
+    const requiredFields = ['name', 'email', 'message', 'consent'];
+
+    function clearErrors() {
+      form?.querySelectorAll('[data-error-for]').forEach((el) => el.classList.add('hidden'));
+      form?.querySelectorAll('input, textarea').forEach((el) => el.removeAttribute('aria-invalid'));
+    }
+
+    function showFieldError(fieldName: string) {
+      const field = form?.querySelector<HTMLElement>(`[name="${fieldName}"]`);
+      field?.setAttribute('aria-invalid', 'true');
+      const errorEl = form?.querySelector(`[data-error-for="${fieldName}"]`);
+      errorEl?.classList.remove('hidden');
+    }
+
+    function validate(): boolean {
+      clearErrors();
+      let valid = true;
+      const data = new FormData(form!);
+
+      for (const field of requiredFields) {
+        const value = data.get(field);
+        const isChecked = field === 'consent' ? value === 'on' : Boolean(value?.toString().trim());
+        if (!isChecked) {
+          showFieldError(field);
+          valid = false;
+        }
+      }
+
+      const email = data.get('email')?.toString() ?? '';
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (email && !emailPattern.test(email)) {
+        showFieldError('email');
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    function setStatus(kind: 'success' | 'error', message: string, showMailto = false) {
+      statusBox!.classList.remove(
+        'hidden',
+        'border-success',
+        'bg-success-surface',
+        'text-success',
+        'border-error',
+        'bg-error-surface',
+        'text-error',
+      );
+      if (kind === 'success') {
+        statusBox!.classList.add('border-success', 'bg-success-surface', 'text-success');
+      } else {
+        statusBox!.classList.add('border-error', 'bg-error-surface', 'text-error');
+      }
+
+      statusBox!.innerHTML = '';
+      const text = document.createElement('p');
+      text.textContent = message;
+      statusBox!.appendChild(text);
+
+      if (showMailto && mailtoTarget) {
+        const name = (new FormData(form!).get('name') ?? '').toString();
+        const messageText = (new FormData(form!).get('message') ?? '').toString();
+        const subject = encodeURIComponent('Anfrage über die Website');
+        const body = encodeURIComponent(`${messageText}\n\n— ${name}`);
+        const link = document.createElement('a');
+        link.href = `mailto:${mailtoTarget}?subject=${subject}&body=${body}`;
+        link.className = 'mt-2 inline-block underline underline-offset-2 font-medium';
+        link.textContent = `Stattdessen direkt per E-Mail an ${mailtoTarget} schreiben`;
+        statusBox!.appendChild(link);
+      }
+    }
+
+    function setLoading(loading: boolean) {
+      isSubmitting = loading;
+      submitButton!.disabled = loading;
+      buttonLabel!.textContent = loading ? 'Wird gesendet …' : 'Nachricht senden';
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (isSubmitting) return;
+
+      if (!validate()) {
+        setStatus('error', 'Bitte prüfen Sie die markierten Felder.');
+        return;
+      }
+
+      setLoading(true);
+      statusBox.classList.add('hidden');
+
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+
+        const result = await response.json().catch(() => null);
+
+        if (response.ok && result?.success) {
+          setStatus(
+            'success',
+            'Danke für Ihre Nachricht. Ich melde mich in der Regel innerhalb von zwei Werktagen.',
+          );
+          form.reset();
+        } else {
+          setStatus(
+            'error',
+            'Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder nutzen Sie den E-Mail-Kontakt.',
+            true,
+          );
+        }
+      } catch {
+        setStatus(
+          'error',
+          'Es gab ein Verbindungsproblem. Bitte versuchen Sie es erneut oder nutzen Sie den E-Mail-Kontakt.',
+          true,
+        );
+      } finally {
+        setLoading(false);
+      }
+    });
+  }
+</script>

@@ -1,0 +1,79 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
+import { site } from '../data/site';
+
+export interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+  ogImagePath?: string;
+  /** Beliebige JSON-LD-Objekte, die als <script type="application/ld+json"> eingebettet werden. */
+  jsonLd?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  noindex = false,
+  ogImagePath = '/images/og-image.png',
+  jsonLd = [],
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, site.url).toString();
+const ogImageUrl = new URL(ogImagePath, site.url).toString();
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:site_name" content={site.name} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {
+      jsonLd.map((entry) => (
+        <script type="application/ld+json" set:html={JSON.stringify(entry)} is:inline />
+      ))
+    }
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Zum Inhalt springen</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <ConsentBanner />
+    <script>
+      import { initScrollReveal } from '../lib/reveal';
+      initScrollReveal();
+    </script>
+  </body>
+</html>

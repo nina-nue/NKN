@@ -1,0 +1,82 @@
+/**
+ * Design-Tokens. Einzige Quelle der Wahrheit für Farben, Typografie, Radien
+ * und Abstände. Komponenten referenzieren ausschließlich diese Variablen
+ * bzw. die daraus erzeugten Tailwind-Utilities (bg-primary, text-ink, …) —
+ * niemals hartkodierte Hex-Werte.
+ */
+
+:root {
+  /* ---- Farben: Primär (Tannengrün, gedeckt, kein Neon/Mint) ---- */
+  --color-primary-50: #eef2ee;
+  --color-primary-100: #d7e0d6;
+  --color-primary-200: #b0c1ae;
+  --color-primary-300: #85a082;
+  --color-primary-400: #5c7d5a;
+  --color-primary-500: #3f5f3e;
+  --color-primary-600: #2f4a2f;
+  --color-primary-700: #253c25;
+  --color-primary-800: #1c2f1d;
+  --color-primary-900: #16241a;
+
+  --color-primary: var(--color-primary-700);
+  --color-primary-strong: var(--color-primary-800);
+  --color-primary-soft: var(--color-primary-100);
+
+  /* ---- Farben: Fläche / Hintergrund (warmes Off-White) ---- */
+  --color-surface: #faf6ee;
+  --color-surface-alt: #f2ead9;
+  --color-surface-raised: #ffffff;
+
+  /* ---- Farben: Akzent (warmer Sand / Messing – zurückhaltend) ---- */
+  --color-accent-100: #ecdec0;
+  --color-accent-300: #d9bb84;
+  --color-accent-500: #b98c4c;
+  --color-accent-600: #7c5a2e;
+
+  --color-accent: var(--color-accent-500);
+  --color-accent-strong: var(--color-accent-600);
+  --color-accent-soft: var(--color-accent-100);
+
+  /* ---- Farben: Text ---- */
+  --color-ink: #211f1a;
+  --color-ink-soft: #4d4a41;
+  --color-ink-muted: #666052;
+  --color-ink-on-primary: #faf6ee;
+
+  /* ---- Farben: Rand / Struktur ---- */
+  --color-border: #ded4bf;
+  --color-border-strong: #b7ab90;
+
+  /* ---- Farben: Status ---- */
+  --color-success: #3f5f3e;
+  --color-success-surface: #e7ede3;
+  --color-error: #8c3a2b;
+  --color-error-surface: #f4e3dd;
+
+  /* ---- Fokus ---- */
+  --color-focus-ring: #9c7239;
+
+  /* ---- Typografie ---- */
+  --font-serif: 'EB Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* ---- Radien ---- */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-full: 999px;
+
+  /* ---- Schatten (sparsam eingesetzt) ---- */
+  --shadow-card: 0 1px 2px rgba(33, 31, 26, 0.06), 0 8px 24px rgba(33, 31, 26, 0.06);
+  --shadow-raised: 0 4px 12px rgba(33, 31, 26, 0.1), 0 16px 40px rgba(33, 31, 26, 0.08);
+
+  /* ---- Übergänge ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 500ms;
+
+  /* ---- Layout ---- */
+  --container-max: 72rem;
+  --container-narrow: 48rem;
+}

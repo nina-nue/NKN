@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactSection from '../components/ContactSection.astro';
+
+const title = 'Kontakt — Nina Karolin Nüchter';
+const description =
+  'Kostenfreies Erstgespräch vereinbaren: per Formular, E-Mail oder direkt online einen Termin buchen.';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="pt-4">
+    <ContactSection />
+  </div>
+</BaseLayout>

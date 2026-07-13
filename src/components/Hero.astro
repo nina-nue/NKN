@@ -1,0 +1,66 @@
+---
+import PlaceholderImage from './PlaceholderImage.astro';
+
+/**
+ * Drei Headline-Varianten (Briefing: Problem benennen, nicht die Leistung).
+ * Variante 1 ist aktiv. Varianten 2 und 3 stehen als Alternativen bereit.
+ *
+ * Variante 2: „Die Technik ist selten das Problem."
+ *   Subline: „Meistens scheitert KI an der Organisation dahinter — an
+ *   Unsicherheit, unklaren Zuständigkeiten, fehlendem Anschluss an den
+ *   Arbeitsalltag. Ich bringe den Blick einer Organisationspsychologin mit,
+ *   damit KI bei Ihnen tatsächlich ankommt."
+ *
+ * Variante 3: „Ihr Team experimentiert längst mit KI. Nur niemand hat es
+ *   entschieden."
+ *   Subline: „Ohne Linie, ohne Regeln, ohne Strategie. Ich helfe
+ *   mittelständischen Unternehmen, aus diesem Zustand eine bewusste
+ *   Entscheidung zu machen — organisatorisch fundiert, nicht nur technisch."
+ */
+---
+
+<section class="relative overflow-hidden border-b border-border bg-surface">
+  <div
+    class="mx-auto grid max-w-(--container-max) items-center gap-12 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-[1.1fr_0.9fr] lg:py-28"
+  >
+    <div data-reveal>
+      <h1
+        class="text-balance font-serif text-4xl leading-[1.1] text-primary-strong sm:text-5xl lg:text-[3.25rem]"
+      >
+        KI scheitert selten an der Technik.
+      </h1>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+        Sondern daran, dass sie im Alltag nicht ankommt. Ich begleite mittelständische Unternehmen
+        dabei, KI so einzuführen, dass das Team sie tatsächlich nutzt — mit dem Blick einer
+        Organisationspsychologin.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a
+          href="/#kontakt"
+          class="rounded-md bg-primary px-6 py-3.5 text-base font-semibold text-ink-on-primary transition-colors hover:bg-primary-strong"
+        >
+          Kostenfreies Erstgespräch
+        </a>
+        <a
+          href="/#ablauf"
+          class="rounded-md border border-primary px-6 py-3.5 text-base font-semibold text-primary-strong transition-colors hover:bg-primary-soft"
+        >
+          Wie ich arbeite
+        </a>
+      </div>
+    </div>
+
+    <div data-reveal class="lg:justify-self-end">
+      <PlaceholderImage
+        filename="hero.jpg"
+        alt="Nina Karolin Nüchter im Gespräch bei einem Workshop"
+        label="Hero-Bild — 4:5, hier einsetzen"
+        ratio="4/5"
+        width={640}
+        height={800}
+        priority={true}
+        class="rounded-lg shadow-raised"
+      />
+    </div>
+  </div>
+</section>

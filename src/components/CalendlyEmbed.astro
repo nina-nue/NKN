@@ -1,0 +1,59 @@
+---
+/**
+ * VARIANTE B — vorbereitet, aber NICHT aktiv (Briefing: Standard ist
+ * Variante A, der Link-out-Button in ContactSection.astro).
+ *
+ * Falls das Inline-Embed später gewünscht ist: diese Komponente in
+ * ContactSection.astro anstelle des Link-out-Buttons einbinden. Das
+ * Calendly-Skript wird erst nach ausdrücklicher Zustimmung geladen (Klick
+ * auf „Calendly laden") — nicht automatisch, da Calendly Cookies setzt und
+ * Daten in die USA überträgt.
+ */
+import { site } from '../data/site';
+---
+
+<div id="calendly-slot" class="rounded-lg border border-border bg-surface-alt p-6">
+  <div id="calendly-placeholder">
+    <p class="text-sm text-ink-soft">
+      Für die Terminbuchung wird Calendly geladen. Dabei werden Daten an Calendly, USA, übertragen.
+    </p>
+    <div class="mt-4 flex flex-wrap gap-3">
+      <button
+        type="button"
+        id="load-calendly"
+        class="rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-ink-on-primary hover:bg-primary-strong"
+      >
+        Calendly laden
+      </button>
+      <a
+        href={site.calendlyUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-md border border-primary px-5 py-2.5 text-sm font-semibold text-primary-strong hover:bg-primary-soft"
+      >
+        Stattdessen in neuem Tab öffnen
+      </a>
+    </div>
+  </div>
+  <div id="calendly-inline-widget" class="hidden h-[700px] w-full"></div>
+</div>
+
+<script define:vars={{ calendlyUrl: site.calendlyUrl }} is:inline>
+  document.getElementById('load-calendly')?.addEventListener('click', () => {
+    const placeholder = document.getElementById('calendly-placeholder');
+    const widget = document.getElementById('calendly-inline-widget');
+    if (!widget) return;
+
+    const script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    script.onload = () => {
+      // @ts-expect-error – global von Calendly-Skript zur Laufzeit bereitgestellt
+      window.Calendly?.initInlineWidget({ url: calendlyUrl, parentElement: widget });
+    };
+    document.body.appendChild(script);
+
+    placeholder?.classList.add('hidden');
+    widget.classList.remove('hidden');
+  });
+</script>

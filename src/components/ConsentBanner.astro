@@ -1,0 +1,270 @@
+---
+import { isAnalyticsConfigured } from '../lib/analytics';
+
+const hasOptional = isAnalyticsConfigured();
+---
+
+<div id="consent-banner" class="fixed inset-x-0 bottom-0 z-50 p-4 sm:p-6" hidden>
+  <div
+    role="dialog"
+    aria-modal="false"
+    aria-labelledby="consent-banner-title"
+    aria-describedby="consent-banner-desc"
+    class="mx-auto max-w-3xl rounded-lg border border-border bg-surface-raised p-5 shadow-raised sm:p-6"
+  >
+    <h2 id="consent-banner-title" class="font-serif text-lg text-primary-strong">
+      Cookies & Privatsphäre
+    </h2>
+    <p id="consent-banner-desc" class="mt-2 text-sm text-ink-soft">
+      Diese Seite verwendet technisch notwendige Cookies, damit sie funktioniert.
+      {
+        hasOptional && (
+          <>
+            {' '}
+            Mit Ihrer Einwilligung nutze ich zusätzlich anonymisierte Statistik-Cookies, um zu
+            verstehen, wie die Seite genutzt wird.
+          </>
+        )
+      }
+      Mehr dazu in der{' '}
+      <a href="/datenschutz" class="underline underline-offset-2 hover:text-primary">
+        Datenschutzerklärung
+      </a>.
+    </p>
+    <div class="mt-4 flex flex-wrap gap-3">
+      {
+        hasOptional && (
+          <button
+            type="button"
+            data-consent-action="accept-all"
+            class="rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-ink-on-primary transition-colors hover:bg-primary-strong"
+          >
+            Alle akzeptieren
+          </button>
+        )
+      }
+      <button
+        type="button"
+        data-consent-action="necessary-only"
+        class="rounded-md border border-primary px-5 py-2.5 text-sm font-semibold text-primary-strong transition-colors hover:bg-primary-soft"
+      >
+        {hasOptional ? 'Nur notwendige' : 'Notwendige akzeptieren'}
+      </button>
+      <button
+        type="button"
+        data-consent-action="open-settings"
+        class="rounded-md border border-border px-5 py-2.5 text-sm font-semibold text-ink-soft transition-colors hover:border-border-strong hover:text-ink"
+      >
+        Einstellungen
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="consent-settings" class="fixed inset-0 z-[60]" hidden>
+  <div class="absolute inset-0 bg-ink/40" data-consent-action="close-settings"></div>
+  <div
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="consent-settings-title"
+    class="absolute left-1/2 top-1/2 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-surface-raised p-6 shadow-raised"
+  >
+    <div class="flex items-start justify-between gap-4">
+      <h2 id="consent-settings-title" class="font-serif text-xl text-primary-strong">
+        Cookie-Einstellungen
+      </h2>
+      <button
+        type="button"
+        data-consent-action="close-settings"
+        aria-label="Einstellungen schließen"
+        class="shrink-0 rounded-md p-1 text-ink-soft hover:text-ink"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M6 6l12 12M18 6L6 18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="mt-4 space-y-4">
+      <div class="rounded-md border border-border p-4">
+        <div class="flex items-center justify-between gap-4">
+          <label for="consent-necessary-toggle" class="font-semibold text-ink"> Notwendig </label>
+          <input
+            type="checkbox"
+            id="consent-necessary-toggle"
+            checked
+            disabled
+            aria-describedby="consent-necessary-desc"
+            class="h-5 w-5 accent-[var(--color-primary)]"
+          />
+        </div>
+        <p id="consent-necessary-desc" class="mt-1 text-sm text-ink-muted">
+          Für den Betrieb der Seite erforderlich (z. B. Speicherung Ihrer Cookie-Einstellung). Immer
+          aktiv, nicht abwählbar.
+        </p>
+      </div>
+
+      {
+        hasOptional && (
+          <div class="rounded-md border border-border p-4">
+            <div class="flex items-center justify-between gap-4">
+              <label for="consent-statistics-toggle" class="font-semibold text-ink">
+                Statistik
+              </label>
+              <input
+                type="checkbox"
+                id="consent-statistics-toggle"
+                aria-describedby="consent-statistics-desc"
+                class="h-5 w-5 accent-[var(--color-primary)]"
+              />
+            </div>
+            <p id="consent-statistics-desc" class="mt-1 text-sm text-ink-muted">
+              Anonymisierte, cookiefreie Reichweitenmessung über Plausible Analytics (EU-Hosting).
+              Standardmäßig deaktiviert.
+            </p>
+          </div>
+        )
+      }
+    </div>
+
+    <div class="mt-6 flex flex-wrap gap-3">
+      <button
+        type="button"
+        data-consent-action="save-settings"
+        class="rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-ink-on-primary transition-colors hover:bg-primary-strong"
+      >
+        Auswahl speichern
+      </button>
+      {
+        hasOptional && (
+          <button
+            type="button"
+            data-consent-action="accept-all-settings"
+            class="rounded-md border border-primary px-5 py-2.5 text-sm font-semibold text-primary-strong transition-colors hover:bg-primary-soft"
+          >
+            Alle akzeptieren
+          </button>
+        )
+      }
+    </div>
+  </div>
+</div>
+
+<script>
+  import { readConsent, writeConsent, type ConsentCategories } from '../lib/consent';
+  import { isAnalyticsConfigured, loadAnalytics } from '../lib/analytics';
+  import { trapFocus, focusFirst } from '../lib/focusTrap';
+
+  const banner = document.getElementById('consent-banner');
+  const settings = document.getElementById('consent-settings');
+  const settingsPanel = settings?.querySelector<HTMLElement>('[role="dialog"]');
+  const bannerPanel = banner?.querySelector<HTMLElement>('[role="dialog"]');
+  const statsToggle = document.getElementById(
+    'consent-statistics-toggle',
+  ) as HTMLInputElement | null;
+
+  let lastFocusedElement: HTMLElement | null = null;
+
+  function applyConsent(categories: ConsentCategories) {
+    if (categories.statistics && isAnalyticsConfigured()) {
+      loadAnalytics();
+    }
+  }
+
+  function showBanner() {
+    banner?.removeAttribute('hidden');
+    lastFocusedElement = document.activeElement as HTMLElement;
+    window.setTimeout(() => bannerPanel && focusFirst(bannerPanel), 10);
+  }
+
+  function hideBanner() {
+    banner?.setAttribute('hidden', '');
+  }
+
+  function openSettings() {
+    lastFocusedElement = document.activeElement as HTMLElement;
+    const current = readConsent();
+    if (statsToggle) statsToggle.checked = current?.categories.statistics ?? false;
+    settings?.removeAttribute('hidden');
+    window.setTimeout(() => settingsPanel && focusFirst(settingsPanel), 10);
+    document.addEventListener('keydown', onSettingsKeydown);
+  }
+
+  function closeSettings() {
+    settings?.setAttribute('hidden', '');
+    document.removeEventListener('keydown', onSettingsKeydown);
+    lastFocusedElement?.focus();
+  }
+
+  function onSettingsKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeSettings();
+      return;
+    }
+    if (settingsPanel) trapFocus(settingsPanel, event);
+  }
+
+  function onBannerKeydown(event: KeyboardEvent) {
+    if (banner?.hasAttribute('hidden')) return;
+    if (bannerPanel) trapFocus(bannerPanel, event);
+  }
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    const action = target.closest<HTMLElement>('[data-consent-action]')?.dataset.consentAction;
+    if (!action) return;
+
+    switch (action) {
+      case 'accept-all':
+      case 'accept-all-settings': {
+        const record = writeConsent({ necessary: true, statistics: true });
+        applyConsent(record.categories);
+        hideBanner();
+        closeSettings();
+        break;
+      }
+      case 'necessary-only': {
+        const record = writeConsent({ necessary: true, statistics: false });
+        applyConsent(record.categories);
+        hideBanner();
+        break;
+      }
+      case 'save-settings': {
+        const record = writeConsent({
+          necessary: true,
+          statistics: statsToggle?.checked ?? false,
+        });
+        applyConsent(record.categories);
+        hideBanner();
+        closeSettings();
+        break;
+      }
+      case 'open-settings':
+        openSettings();
+        break;
+      case 'close-settings':
+        closeSettings();
+        break;
+    }
+  });
+
+  document.addEventListener('keydown', onBannerKeydown);
+
+  // Footer-Link „Cookie-Einstellungen" öffnet das Banner erneut.
+  window.addEventListener('nkn:open-consent-settings', () => {
+    showBanner();
+    openSettings();
+  });
+
+  const existing = readConsent();
+  if (!existing) {
+    showBanner();
+  } else {
+    applyConsent(existing.categories);
+  }
+</script>
