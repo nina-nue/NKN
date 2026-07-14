@@ -4,6 +4,9 @@
  */
 export const site = {
   name: 'Nina Karolin Nüchter',
+  // Kurzform nur für die Kopfzeile/Logo oben. Der volle Name bleibt für
+  // Impressum, Rechtstexte, Meta-Titel und JSON-LD maßgeblich.
+  shortName: 'Nina K. Nüchter',
   title: 'Nina Karolin Nüchter — KI-Beratung mit Organisationspsychologie',
   claim: 'KI-Beratung für den Mittelstand — mit dem Blick der Organisationspsychologie.',
   description:

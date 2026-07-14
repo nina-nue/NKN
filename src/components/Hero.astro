@@ -1,66 +1,126 @@
 ---
-import PlaceholderImage from './PlaceholderImage.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 
 /**
- * Drei Headline-Varianten (Briefing: Problem benennen, nicht die Leistung).
- * Variante 1 ist aktiv. Varianten 2 und 3 stehen als Alternativen bereit.
+ * Hero „hell & modern" (Design-Richtung B): vollflächiges Hintergrundfoto,
+ * Motiv rechts positioniert, heller Verlauf links, Text links. Sanfter
+ * Parallax (Foto zieht beim Scrollen langsamer mit) + Fade-in.
  *
- * Variante 2: „Die Technik ist selten das Problem."
- *   Subline: „Meistens scheitert KI an der Organisation dahinter — an
- *   Unsicherheit, unklaren Zuständigkeiten, fehlendem Anschluss an den
- *   Arbeitsalltag. Ich bringe den Blick einer Organisationspsychologin mit,
- *   damit KI bei Ihnen tatsächlich ankommt."
+ * Das Foto wird aus src/assets/images/hero.jpg geladen und über astro:assets
+ * zu WebP optimiert. Fehlt die Datei, erscheint ein heller Platzhalter im
+ * vollen Format — das Layout bleibt identisch.
  *
- * Variante 3: „Ihr Team experimentiert längst mit KI. Nur niemand hat es
- *   entschieden."
- *   Subline: „Ohne Linie, ohne Regeln, ohne Strategie. Ich helfe
- *   mittelständischen Unternehmen, aus diesem Zustand eine bewusste
- *   Entscheidung zu machen — organisatorisch fundiert, nicht nur technisch."
+ * Drei Headline-Varianten (Briefing). Variante 1 aktiv:
+ *   V2: „Die Technik ist selten das Problem." / Subline: Meistens scheitert KI
+ *       an der Organisation dahinter — an Unsicherheit, unklaren
+ *       Zuständigkeiten, fehlendem Anschluss an den Arbeitsalltag …
+ *   V3: „Ihr Team experimentiert längst mit KI. Nur niemand hat es
+ *       entschieden." / Subline: Ohne Linie, ohne Regeln, ohne Strategie …
  */
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*', {
+  eager: true,
+});
+const hero = images['/src/assets/images/hero.jpg'];
 ---
 
-<section class="relative overflow-hidden border-b border-border bg-surface">
-  <div
-    class="mx-auto grid max-w-(--container-max) items-center gap-12 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-[1.1fr_0.9fr] lg:py-28"
-  >
-    <div data-reveal>
-      <h1
-        class="text-balance font-serif text-4xl leading-[1.1] text-primary-strong sm:text-5xl lg:text-[3.25rem]"
+<section class="relative flex min-h-[92svh] items-center overflow-hidden bg-surface">
+  {
+    hero ? (
+      <div class="hero-media" data-hero-parallax>
+        <Image
+          src={hero.default}
+          alt="Nina Karolin Nüchter bei einer Veranstaltung"
+          widths={[768, 1280, 1920, 2560]}
+          sizes="100vw"
+          format="webp"
+          quality="mid"
+          loading="eager"
+          fetchpriority="high"
+          style="object-position: 72% center;"
+        />
+      </div>
+    ) : (
+      <div
+        class="hero-media flex items-center justify-end pr-16"
+        style="background: linear-gradient(115deg,#eee6d5 0%,#d9e0d2 55%,#b9c6b2 100%);"
+        data-hero-parallax
       >
+        <span class="rounded-md border border-dashed border-border-strong px-4 py-2 text-sm text-ink-muted">
+          Ihr Foto — hier als hero.jpg einsetzen (vollflächig)
+        </span>
+      </div>
+    )
+  }
+
+  <!-- Heller Verlauf-Scrim: links deckend für Textlesbarkeit, rechts frei fürs Motiv -->
+  <div
+    class="pointer-events-none absolute inset-0"
+    style="background:
+      linear-gradient(90deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 88%, transparent) 34%, color-mix(in srgb, var(--color-surface) 30%, transparent) 62%, transparent 100%),
+      linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 40%, transparent) 0%, transparent 22%);"
+  >
+  </div>
+
+  <div class="relative z-10 mx-auto w-full max-w-(--container-max) px-4 py-24 sm:px-6">
+    <div class="max-w-2xl" data-reveal="rise">
+      <p class="text-sm font-semibold uppercase tracking-[0.14em] text-accent-strong">
+        KI-Beratung für den Mittelstand
+      </p>
+      <h1 class="mt-5 text-5xl leading-[0.98] text-primary-strong sm:text-6xl lg:text-7xl">
         KI scheitert selten an der Technik.
       </h1>
-      <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+      <p class="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft sm:text-xl">
         Sondern daran, dass sie im Alltag nicht ankommt. Ich begleite mittelständische Unternehmen
         dabei, KI so einzuführen, dass das Team sie tatsächlich nutzt — mit dem Blick einer
         Organisationspsychologin.
       </p>
-      <div class="mt-8 flex flex-wrap items-center gap-4">
+      <div class="mt-9 flex flex-wrap items-center gap-4">
         <a
           href="/#kontakt"
-          class="rounded-md bg-primary px-6 py-3.5 text-base font-semibold text-ink-on-primary transition-colors hover:bg-primary-strong"
+          class="rounded-xl bg-primary px-7 py-4 text-base font-semibold text-ink-on-primary transition-all hover:bg-primary-strong hover:shadow-raised"
         >
           Kostenfreies Erstgespräch
         </a>
         <a
           href="/#ablauf"
-          class="rounded-md border border-primary px-6 py-3.5 text-base font-semibold text-primary-strong transition-colors hover:bg-primary-soft"
+          class="rounded-xl border border-primary/40 bg-surface/60 px-7 py-4 text-base font-semibold text-primary-strong backdrop-blur transition-colors hover:bg-primary-soft"
         >
           Wie ich arbeite
         </a>
       </div>
     </div>
+  </div>
 
-    <div data-reveal class="lg:justify-self-end">
-      <PlaceholderImage
-        filename="hero.jpg"
-        alt="Nina Karolin Nüchter im Gespräch bei einem Workshop"
-        label="Hero-Bild — 4:5, hier einsetzen"
-        ratio="4/5"
-        width={640}
-        height={800}
-        priority={true}
-        class="rounded-lg shadow-raised"
-      />
-    </div>
+  <div
+    class="pointer-events-none absolute bottom-7 left-1/2 z-10 -translate-x-1/2 text-xs uppercase tracking-[0.25em] text-ink-muted"
+  >
+    Scrollen
   </div>
 </section>
+
+<script>
+  const media = document.querySelector<HTMLElement>('[data-hero-parallax]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (media && !reduce) {
+    let ticking = false;
+    const update = () => {
+      const y = window.scrollY;
+      // Foto langsamer als der Scroll (Apple-artiger Parallax)
+      media.style.transform = `translate3d(0, ${y * 0.18}px, 0)`;
+      ticking = false;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(update);
+          ticking = true;
+        }
+      },
+      { passive: true },
+    );
+    update();
+  }
+</script>
