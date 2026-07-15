@@ -3,20 +3,14 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 /**
- * Hero „hell & modern" (Design-Richtung B): vollflächiges Hintergrundfoto,
- * Motiv rechts positioniert, heller Verlauf links, Text links. Sanfter
- * Parallax (Foto zieht beim Scrollen langsamer mit) + Fade-in.
+ * Hero „hell & modern": vollflächiges Hintergrundfoto, Motiv rechts
+ * positioniert, heller Verlauf links, Text links. Farb-Wash + Vignette
+ * beruhigen den unruhigen Konferenz-Hintergrund (Messewand/Lanyard), ohne
+ * die Person freizustellen. Scroll-Parallax + sanfter Zoom-in beim Laden.
  *
  * Das Foto wird aus src/assets/images/hero.jpg geladen und über astro:assets
  * zu WebP optimiert. Fehlt die Datei, erscheint ein heller Platzhalter im
  * vollen Format — das Layout bleibt identisch.
- *
- * Drei Headline-Varianten (Briefing). Variante 1 aktiv:
- *   V2: „Die Technik ist selten das Problem." / Subline: Meistens scheitert KI
- *       an der Organisation dahinter — an Unsicherheit, unklaren
- *       Zuständigkeiten, fehlendem Anschluss an den Arbeitsalltag …
- *   V3: „Ihr Team experimentiert längst mit KI. Nur niemand hat es
- *       entschieden." / Subline: Ohne Linie, ohne Regeln, ohne Strategie …
  */
 
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*', {
@@ -54,21 +48,23 @@ const hero = images['/src/assets/images/hero.jpg'];
     )
   }
 
-  <!-- Heller Verlauf-Scrim: links deckend für Textlesbarkeit, rechts frei fürs Motiv -->
-  <div
-    class="pointer-events-none absolute inset-0"
-    style="background:
-      linear-gradient(90deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 88%, transparent) 34%, color-mix(in srgb, var(--color-surface) 30%, transparent) 62%, transparent 100%),
-      linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 40%, transparent) 0%, transparent 22%);"
-  >
-  </div>
+  <!-- Farb-Wash: zieht kühle Banner-/Lanyard-Töne im Foto Richtung Marke -->
+  <div class="hero-wash pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+  <!-- Radialer Spotlight-Vignette: dunkelt Ränder ab, lenkt den Blick zur Person -->
+  <div class="hero-vignette pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+  <!-- Heller Verlauf-Scrim: links deckend für Textlesbarkeit, rechts frei fürs Motiv, unten dezenter Fade -->
+  <div class="hero-scrim pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-(--container-max) px-4 py-24 sm:px-6">
     <div class="max-w-2xl" data-reveal="rise">
       <p class="text-sm font-semibold uppercase tracking-[0.14em] text-accent-strong">
         KI-Beratung für den Mittelstand
       </p>
-      <h1 class="mt-5 text-5xl leading-[0.98] text-primary-strong sm:text-6xl lg:text-7xl">
+      <h1
+        class="mt-5 text-balance text-5xl leading-[0.98] text-primary-strong sm:text-6xl lg:text-7xl xl:text-8xl"
+      >
         KI scheitert selten an der Technik.
       </h1>
       <p class="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft sm:text-xl">
@@ -77,16 +73,8 @@ const hero = images['/src/assets/images/hero.jpg'];
         Organisationspsychologin.
       </p>
       <div class="mt-9 flex flex-wrap items-center gap-4">
-        <a
-          href="/#kontakt"
-          class="rounded-xl bg-primary px-7 py-4 text-base font-semibold text-ink-on-primary transition-all hover:bg-primary-strong hover:shadow-raised"
-        >
-          Kostenfreies Erstgespräch
-        </a>
-        <a
-          href="/#ablauf"
-          class="rounded-xl border border-primary/40 bg-surface/60 px-7 py-4 text-base font-semibold text-primary-strong backdrop-blur transition-colors hover:bg-primary-soft"
-        >
+        <a href="/#kontakt" class="btn-primary px-7 py-4 text-base"> Kostenfreies Erstgespräch </a>
+        <a href="/#ablauf" class="btn-secondary bg-surface/60 px-7 py-4 text-base backdrop-blur">
           Wie ich arbeite
         </a>
       </div>
@@ -94,7 +82,7 @@ const hero = images['/src/assets/images/hero.jpg'];
   </div>
 
   <div
-    class="pointer-events-none absolute bottom-7 left-1/2 z-10 -translate-x-1/2 text-xs uppercase tracking-[0.25em] text-ink-muted"
+    class="hero-scroll-hint pointer-events-none absolute bottom-7 left-1/2 z-10 text-xs uppercase tracking-[0.25em] text-ink-muted"
   >
     Scrollen
   </div>

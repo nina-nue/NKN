@@ -3,15 +3,11 @@ import { faq } from '../data/faq';
 import { ChevronDown } from '@lucide/astro';
 ---
 
-<section
-  id="faq"
-  class="scroll-mt-20 border-b border-border bg-surface-alt"
-  aria-labelledby="faq-heading"
->
-  <div class="mx-auto max-w-(--container-narrow) px-4 py-20 sm:px-6">
-    <div data-reveal>
+<section id="faq" class="scroll-mt-20 bg-surface-alt" aria-labelledby="faq-heading">
+  <div class="section-pad mx-auto max-w-(--container-narrow) px-4 sm:px-6">
+    <div data-reveal="rise">
       <p class="text-sm font-semibold uppercase tracking-wide text-accent-strong">Häufige Fragen</p>
-      <h2 id="faq-heading" class="mt-3 font-sans text-3xl text-primary-strong sm:text-4xl">
+      <h2 id="faq-heading" class="mt-3 font-sans text-fluid-h2 text-primary-strong">
         Bevor wir sprechen
       </h2>
     </div>
@@ -19,7 +15,7 @@ import { ChevronDown } from '@lucide/astro';
     <div class="mt-10 divide-y divide-border border-t border-border">
       {
         faq.map((item) => (
-          <details data-reveal class="group py-2">
+          <details data-reveal class="group py-2 transition-colors hover:bg-surface-raised/60">
             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4">
               <span class="font-sans text-lg text-primary-strong">{item.question}</span>
               <ChevronDown

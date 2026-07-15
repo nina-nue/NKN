@@ -12,10 +12,10 @@ const jsonLd = [buildPersonSchema()];
 ---
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
-  <section class="border-b border-border bg-surface">
-    <div class="mx-auto max-w-(--container-max) px-4 py-16 sm:px-6 sm:py-20">
+  <section class="bg-surface">
+    <div class="section-pad mx-auto max-w-(--container-max) px-4 sm:px-6" data-reveal="rise">
       <p class="text-sm font-semibold uppercase tracking-wide text-accent-strong">Über mich</p>
-      <h1 class="mt-3 max-w-2xl font-sans text-4xl text-primary-strong sm:text-5xl">
+      <h1 class="mt-3 max-w-2xl font-sans text-fluid-h1 text-primary-strong">
         {site.name}
       </h1>
       <p class="mt-5 max-w-2xl text-lg text-ink-soft">
@@ -37,15 +37,15 @@ const jsonLd = [buildPersonSchema()];
   <Qualifications />
 
   <section class="bg-surface">
-    <div class="mx-auto max-w-(--container-max) px-4 py-16 text-center sm:px-6">
-      <h2 class="font-sans text-2xl text-primary-strong sm:text-3xl">Lernen wir uns kennen</h2>
+    <div
+      class="section-pad mx-auto max-w-(--container-max) px-4 text-center sm:px-6"
+      data-reveal="rise"
+    >
+      <h2 class="font-sans text-fluid-h2 text-primary-strong">Lernen wir uns kennen</h2>
       <p class="mx-auto mt-3 max-w-xl text-ink-soft">
         Im Erstgespräch schauen wir gemeinsam, ob und wo KI bei Ihnen aktuell sinnvoll ist.
       </p>
-      <a
-        href="/kontakt"
-        class="mt-6 inline-block rounded-md bg-primary px-6 py-3.5 text-base font-semibold text-ink-on-primary transition-colors hover:bg-primary-strong"
-      >
+      <a href="/kontakt" class="btn-primary mt-6 inline-block px-6 py-3.5 text-base">
         Kostenfreies Erstgespräch
       </a>
     </div>

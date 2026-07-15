@@ -2,15 +2,15 @@
 import { problems } from '../data/problems';
 ---
 
-<section class="border-b border-border bg-surface-alt" aria-labelledby="probleme-heading">
-  <div class="mx-auto max-w-(--container-max) px-4 py-20 sm:px-6">
+<section class="bg-surface-alt" aria-labelledby="probleme-heading">
+  <div class="section-pad mx-auto max-w-(--container-max) px-4 sm:px-6">
     <h2 id="probleme-heading" class="sr-only">Typische Situationen im Mittelstand</h2>
     <div class="grid gap-6 sm:grid-cols-2">
       {
         problems.map((problem) => (
           <div
             data-reveal
-            class="rounded-lg border border-border bg-surface-raised p-7 shadow-card"
+            class="card-lift rounded-lg border border-border bg-surface-raised p-7 shadow-card"
           >
             <p class="font-sans text-xl leading-snug text-primary-strong">„{problem.situation}"</p>
             <p class="mt-4 text-ink-soft">{problem.response}</p>
