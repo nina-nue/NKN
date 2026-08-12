@@ -29,7 +29,7 @@ export const services: Service[] = [
     title: 'Change-Begleitung bei KI-Einführung',
     phase: 'Verankerung',
     summary:
-      'Der Teil, an dem die meisten KI-Projekte scheitern: Akzeptanz im Team, nicht die Technik.',
+      'Ob ein neues KI-Tool im Alltag ankommt, entscheidet selten die Technik — sondern ob das Team die Veränderung akzeptiert und mitträgt.',
     description:
       'Ein neues Tool ist schnell lizenziert. Ob es benutzt wird, entscheidet sich an anderer Stelle — an Unsicherheit, unklaren Erwartungen, fehlender Beteiligung. Ich begleite die Einführung so, dass das Team versteht, warum sich etwas ändert, und die Gelegenheit hat, Bedenken zu äußern, bevor sie zu stillem Widerstand werden.',
   },
@@ -69,9 +69,9 @@ export const services: Service[] = [
     slug: 'datengestuetzte-entscheidungsberatung',
     title: 'Datengestützte Entscheidungsberatung',
     phase: 'Analyse',
-    summary: 'Fundierte Entscheidungsgrundlagen statt Vermutungen — mit R und Power BI.',
+    summary: 'Fundierte Entscheidungsgrundlagen statt Vermutungen.',
     description:
-      'Für Entscheidungen, die über den Bauch hinausgehen sollen, werte ich vorhandene Daten aus und bereite sie verständlich auf — mit R und Power BI. Das Ergebnis ist eine Grundlage, mit der Sie tatsächlich argumentieren können.',
+      'Für Entscheidungen, die über den Bauch hinausgehen sollen, werte ich vorhandene Daten aus und bereite sie verständlich auf. Das Ergebnis ist eine Grundlage, mit der Sie tatsächlich argumentieren können.',
   },
   {
     slug: 'vortrag-impuls',

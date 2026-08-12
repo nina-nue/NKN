@@ -12,7 +12,7 @@ export const problems: Problem[] = [
   {
     situation: 'Ein Tool wurde eingeführt. Genutzt wird es nicht.',
     response:
-      'Akzeptanz, Kommunikation und Change-Begleitung — der Teil, den die meisten Beratungen überspringen.',
+      'Akzeptanz, Kommunikation und Change-Begleitung — der Teil, den viele Beratungen überspringen.',
   },
   {
     situation: 'Wir wissen nicht, was wir dürfen.',
