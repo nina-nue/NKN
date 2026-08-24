@@ -80,5 +80,11 @@ export const singleModules: SingleModule[] = [
 export const pricingIntro =
   'Jeder Baustein ist auch für sich genommen buchbar — wenn Sie schon wissen, was Sie brauchen. Den Preis stimme ich auf den Zuschnitt ab.';
 
+/**
+ * ⚠️ PRÜFEN: Sobald geklärt ist, ob die Kleinunternehmerregelung nach § 19 UStG genutzt wird
+ * (siehe RECHTLICHES.md und impressum.astro, Abschnitt „Umsatzsteuer"), hier den passenden
+ * Zusatz ergänzen: entweder "…, zzgl. der gesetzlichen Umsatzsteuer." oder "Gemäß § 19 UStG
+ * wird keine Umsatzsteuer berechnet." Bisher bewusst nicht vorweggenommen.
+ */
 export const pricingFootnote =
   'Die Paketpreise verstehen sich netto und sind auf Vorbereitung, Durchführung und Nachbereitung kalkuliert — keine versteckten Zusatzkosten. Einzelne Bausteine und individuelle Zuschnitte kalkuliere ich nach Aufwand.';
