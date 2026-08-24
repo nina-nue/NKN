@@ -8,9 +8,9 @@ export const site = {
   // Impressum, Rechtstexte, Meta-Titel und JSON-LD maßgeblich.
   shortName: 'Nina K. Nüchter',
   title: 'Nina Karolin Nüchter — KI-Beratung mit Organisationspsychologie',
-  claim: 'KI-Beratung für den Mittelstand — mit dem Blick der Organisationspsychologie.',
+  claim: 'KI-Beratung für Organisationen — mit dem Blick der Organisationspsychologie.',
   description:
-    'KI-Beratung für Unternehmen im Mittelstand: Potenzialanalyse, Strategie, Schulung und Change-Begleitung, damit KI im Alltag tatsächlich ankommt. Standort Duisburg, Niederrhein, NRW.',
+    'KI-Beratung für Unternehmen und Organisationen: Governance, psychologische Diagnostik, Führungskräfte-Coaching und Wirkungsmessung, damit KI-Vorhaben im Alltag tatsächlich tragen. Bundesweit, remote-first.',
   url: import.meta.env.PUBLIC_SITE_URL || 'https://www.nina-nuechter.de',
   locale: 'de_DE',
   email: 'n.nuechter@nknoffice.eu',
@@ -28,7 +28,7 @@ export const site = {
     country: 'DE',
     countryName: 'Deutschland',
   },
-  areaServed: ['Duisburg', 'Niederrhein', 'Nordrhein-Westfalen'],
+  areaServed: ['Deutschland', 'Österreich', 'Schweiz'],
   calendlyUrl: 'https://calendly.com/nina-karolin-nuechter/30min',
   linkedinUrl: 'https://www.linkedin.com/in/nina-nuechter/',
   jobTitle: 'Organisationspsychologin, KI-Beraterin',
