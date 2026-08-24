@@ -44,6 +44,7 @@ export const nav = [
 ] as const;
 
 export const footerLegalNav = [
+  { label: 'Transparenz', href: '/transparenz' },
   { label: 'Impressum', href: '/impressum' },
   { label: 'Datenschutz', href: '/datenschutz' },
 ] as const;
