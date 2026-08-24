@@ -8,26 +8,38 @@ export interface Phase {
 export const phases: Phase[] = [
   {
     number: '01',
-    title: 'Analyse',
-    summary: 'Wo steht das Unternehmen, wo liegt echtes Potenzial?',
-    details: ['Prozess-Mapping', 'Interviews mit Team und Führung', 'KI-Reife-Erhebung'],
+    title: 'Diagnostik',
+    summary: 'Wo Akzeptanz, Unsicherheit und Belastung im Team tatsächlich stehen.',
+    details: [
+      'Validierte psychologische Instrumente',
+      'Datengestützte Entscheidungsgrundlagen',
+      'Befragung von Team und Führung',
+    ],
   },
   {
     number: '02',
-    title: 'Strategie',
-    summary: 'Priorisierte Use Cases und ein Fahrplan, der zum Unternehmen passt.',
-    details: ['Priorisierte Use Cases', 'Roadmap', 'Entscheidungsgrundlagen für die Führung'],
+    title: 'Governance',
+    summary: 'Klare Regeln, Rollen und Leitlinien, orientiert an der KI-Verordnung.',
+    details: [
+      'Nutzungsrichtlinien',
+      'Rollen & Verantwortlichkeiten',
+      'Orientierung an EU AI Act und DSGVO',
+    ],
   },
   {
     number: '03',
-    title: 'Befähigung',
-    summary: 'Schulung und AI Literacy, zugeschnitten auf den Alltag im Unternehmen.',
-    details: ['Schulungen', 'Workshops', 'AI Literacy — nicht generisch, sondern konkret'],
+    title: 'Führung',
+    summary: 'Führungskräfte im Umgang mit KI-bedingter Verunsicherung im Team stärken.',
+    details: ['Coaching für Führungskräfte', 'Impulsvorträge', 'Kommunikation von Veränderung'],
   },
   {
     number: '04',
-    title: 'Verankerung',
-    summary: 'Damit es nach der Schulung nicht wieder einschläft.',
-    details: ['Change-Begleitung', 'Leitlinien', 'Wirkungsmessung'],
+    title: 'Wirkung',
+    summary: 'Was die Einführung tatsächlich bewirkt hat — sauber gemessen, nicht behauptet.',
+    details: [
+      'Wirkungsmessung & Evaluation',
+      'Change-Begleitung',
+      'Ergebnisberichte als Entscheidungsgrundlage',
+    ],
   },
 ];

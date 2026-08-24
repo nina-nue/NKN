@@ -8,44 +8,50 @@ export interface PricePackage {
   highlighted: boolean;
 }
 
+/**
+ * ⚠️ PREIS-VORSCHLAG, NOCH NICHT BESTÄTIGT (Stand: rechtliche Überarbeitung 2026-08-24).
+ * Alle `price`-Felder in diesem Array sind Platzhalter-Vorschläge und müssen vor dem
+ * nächsten Deploy gegen die Angabe im Formular für das Personaldezernat abgeglichen und
+ * bestätigt werden. Siehe COMPLIANCE.md.
+ */
 export const packages: PricePackage[] = [
   {
-    slug: 'ki-start',
-    name: 'KI-Start',
-    price: '2.900 € netto',
-    audience: 'Für Unternehmen, die erste Orientierung brauchen.',
+    slug: 'ki-governance-paket',
+    name: 'KI-Governance-Paket',
+    price: '6.900 € netto (Preisvorschlag — noch zu bestätigen)',
+    audience: 'Für Organisationen, die klare Regeln brauchen, bevor KI-Tools flächendeckend genutzt werden.',
     modules: [
-      'Orientierungsgespräch (30 Min.)',
-      'KI-Kompass Workshop (halbtägig, bis 12 Teilnehmende)',
+      'Governance-Analyse & Rollen-Workshop',
+      'KI-Nutzungsrichtlinie',
+      'Umsetzungs-Fahrplan für die Pflichten aus der KI-Verordnung',
     ],
-    result: 'Erste Use-Case-Sammlung, Ergebnisprotokoll mit nächsten Schritten.',
+    result: 'Verabschiedete Nutzungsrichtlinie, klare Rollen, dokumentierte Grundlage für die Pflichten aus der KI-Verordnung.',
     highlighted: false,
   },
   {
-    slug: 'ki-potenzial-roadmap',
-    name: 'KI-Potenzial & Roadmap',
-    price: '7.900 € netto',
-    audience: 'Für Unternehmen, die konkret starten wollen.',
+    slug: 'ki-akzeptanzdiagnostik-fuehrungscoaching',
+    name: 'KI-Akzeptanzdiagnostik & Führungscoaching',
+    price: '9.800 € netto (Preisvorschlag — noch zu bestätigen)',
+    audience: 'Für Organisationen, die spüren, dass der Widerstand gegen KI nicht an der Technik liegt.',
     modules: [
-      'KI-Potenzialanalyse (3–5 Interviews, priorisierte Use-Case-Landkarte)',
-      'Roadmap für die nächsten 3 Monate',
+      'Diagnostik zu Akzeptanz, Unsicherheit und Belastung (validierte Instrumente)',
+      'Ergebnisbericht mit Handlungsempfehlungen',
+      'Coaching-Reihe für Führungskräfte (3 Sitzungen)',
     ],
-    result: 'Abschlusspräsentation mit priorisierten Use Cases und Fahrplan.',
+    result: 'Belastbares Bild der psychologischen Ausgangslage im Team plus begleitetes Coaching für die Führungsebene.',
     highlighted: true,
   },
   {
-    slug: 'ki-einfuehrung-akzeptanz',
-    name: 'KI-Einführung mit Akzeptanz',
-    price: '14.900 € netto',
-    audience:
-      'Für Unternehmen, die einen Piloten nicht nur testen, sondern zum Laufen bringen wollen.',
+    slug: 'ki-wirkungsanalyse',
+    name: 'KI-Wirkungsanalyse',
+    price: '5.400 € netto (Preisvorschlag — noch zu bestätigen)',
+    audience: 'Für Organisationen, die eine KI-Einführung bereits hinter sich haben und wissen wollen, was sie gebracht hat.',
     modules: [
-      'Potenzialanalyse light',
-      'Pilotdesign & -begleitung',
-      'Change- und Kommunikationsbegleitung',
-      'Wirkungsmessung',
+      'Festlegung von Erfolgskriterien',
+      'Befragung von Team und Führung',
+      'Ergebnisbericht als Entscheidungsgrundlage',
     ],
-    result: 'Getesteter Use Case, eingebundenes Team, Entscheidungsvorlage zur Skalierung.',
+    result: 'Ein verständlicher Bericht, der zeigt, was die KI-Einführung tatsächlich bewirkt hat — als Grundlage für die nächsten Schritte.',
     highlighted: false,
   },
 ];
@@ -57,15 +63,18 @@ export interface SingleModule {
 
 export const singleModules: SingleModule[] = [
   { name: 'Vortrag / Impuls', scope: '45–60 Minuten für Führungsrunden oder Fachveranstaltungen' },
-  { name: 'AI Literacy kompakt', scope: '2 Stunden online, bis 20 Personen' },
-  { name: 'KI-Kompass Workshop', scope: 'halbtägig, bis 12 Teilnehmende' },
-  { name: 'KI-Schulung & Enablement', scope: '1 Tag, bis 15 Teilnehmende' },
-  { name: 'Wirkungsmessung', scope: 'Erfolgskriterien, Befragung, Ergebnisbericht' },
+  {
+    name: 'KI-Akzeptanz- und Belastungsdiagnostik',
+    scope: '2–3 Wochen, validierte Instrumente, Ergebnisbericht',
+  },
+  {
+    name: 'Führungskräfte-Coaching bei KI-bedingter Verunsicherung',
+    scope: 'ab 3 Sitzungen à 60 Minuten',
+  },
   { name: 'Governance & KI-Leitlinien', scope: 'Nutzungsrichtlinie und Rollen' },
-  { name: 'KI-Potenzialanalyse', scope: '2–3 Wochen, priorisierte Use-Case-Landkarte' },
+  { name: 'Wirkungsmessung & Evaluation', scope: 'Erfolgskriterien, Befragung, Ergebnisbericht' },
   { name: 'Change-Begleitung', scope: '4–6 Wochen, Akzeptanz und Kommunikation' },
-  { name: 'KI-Strategie & Roadmap', scope: '4–6 Wochen, vollständiger Fahrplan' },
-  { name: 'Pilot- & Implementierungsbegleitung', scope: '6–8 Wochen, von Test zu Nutzung' },
+  { name: 'Datengestützte Entscheidungsberatung', scope: 'Umfang richtet sich nach der Datenlage' },
 ];
 
 export const pricingIntro =
