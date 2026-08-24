@@ -67,59 +67,103 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
         class="mt-1.5 w-full rounded-md border border-border bg-surface-raised px-4 py-2.5 text-ink placeholder:text-ink-muted transition-colors focus:border-primary"
       />
     </div>
-  </div>
 
-  <div>
-    <label for="message" class="block text-sm font-medium text-ink">Nachricht *</label>
-    <textarea
-      id="message"
-      name="message"
-      rows="5"
-      required
-      class="mt-1.5 w-full rounded-md border border-border bg-surface-raised px-4 py-2.5 text-ink placeholder:text-ink-muted transition-colors focus:border-primary"
-    ></textarea>
-    <p class="mt-1 hidden text-sm text-error" data-error-for="message">
-      Bitte teilen Sie mir kurz Ihr Anliegen mit.
-    </p>
-  </div>
-
-  <div>
-    <div class="flex items-start gap-3">
-      <input
-        type="checkbox"
-        id="consent"
-        name="consent"
+    <div class="sm:col-span-2">
+      <label for="region" class="block text-sm font-medium text-ink"
+        >In welcher Region ist Ihr Unternehmen ansässig? *</label
+      >
+      <select
+        id="region"
+        name="region"
         required
-        class="mt-1 h-4 w-4 shrink-0 accent-[var(--color-primary)]"
-      />
-      <label for="consent" class="text-sm text-ink-soft">
-        Ich habe die <a href="/datenschutz" class="underline underline-offset-2 hover:text-primary"
-          >Datenschutzerklärung</a
-        > gelesen und stimme der Verarbeitung meiner Daten zu Kontaktzwecken zu. *
-      </label>
+        class="mt-1.5 w-full rounded-md border border-border bg-surface-raised px-4 py-2.5 text-ink transition-colors focus:border-primary"
+      >
+        <option value="">Bitte wählen</option>
+        <option value="duisburg">Duisburg</option>
+        <option value="kreis-wesel">Kreis Wesel</option>
+        <option value="kreis-kleve">Kreis Kleve</option>
+        <option value="andere">Andere Region</option>
+      </select>
+      <p class="mt-1 hidden text-sm text-error" data-error-for="region">
+        Bitte wählen Sie eine Region aus.
+      </p>
     </div>
-    <p class="mt-1 hidden text-sm text-error" data-error-for="consent">
-      Bitte stimmen Sie der Datenverarbeitung zu, damit ich antworten kann.
-    </p>
   </div>
 
   <div
-    id="form-status"
-    role="status"
-    aria-live="polite"
-    class="hidden rounded-md border p-4 text-sm"
+    id="region-blocked-notice"
+    class="hidden rounded-md border border-border bg-surface-alt p-4 text-sm text-ink-soft"
   >
+    <p>
+      Für Unternehmen aus dieser Region nehme ich aktuell keine Aufträge an — mehr dazu auf der{' '}
+      <a href="/transparenz" class="underline underline-offset-2 hover:text-primary">
+        Transparenz-Seite
+      </a>. Es gibt für diese Region ein kostenfreies, öffentlich gefördertes Beratungsangebot zum
+      Thema KI:{' '}
+      <a
+        href="https://linktr.ee/KIfuerKMU"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline underline-offset-2 hover:text-primary"
+      >
+        linktr.ee/KIfuerKMU
+      </a>.
+    </p>
   </div>
 
-  <div class="flex flex-wrap items-center gap-4">
-    <button
-      type="submit"
-      id="submit-button"
-      class="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3.5 text-base disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+  <div id="form-fields-below-region" class="space-y-5">
+    <div>
+      <label for="message" class="block text-sm font-medium text-ink">Nachricht *</label>
+      <textarea
+        id="message"
+        name="message"
+        rows="5"
+        required
+        class="mt-1.5 w-full rounded-md border border-border bg-surface-raised px-4 py-2.5 text-ink placeholder:text-ink-muted transition-colors focus:border-primary"
+      ></textarea>
+      <p class="mt-1 hidden text-sm text-error" data-error-for="message">
+        Bitte teilen Sie mir kurz Ihr Anliegen mit.
+      </p>
+    </div>
+
+    <div>
+      <div class="flex items-start gap-3">
+        <input
+          type="checkbox"
+          id="consent"
+          name="consent"
+          required
+          class="mt-1 h-4 w-4 shrink-0 accent-[var(--color-primary)]"
+        />
+        <label for="consent" class="text-sm text-ink-soft">
+          Ich habe die <a href="/datenschutz" class="underline underline-offset-2 hover:text-primary"
+            >Datenschutzerklärung</a
+          > gelesen und stimme der Verarbeitung meiner Daten zu Kontaktzwecken zu. *
+        </label>
+      </div>
+      <p class="mt-1 hidden text-sm text-error" data-error-for="consent">
+        Bitte stimmen Sie der Datenverarbeitung zu, damit ich antworten kann.
+      </p>
+    </div>
+
+    <div
+      id="form-status"
+      role="status"
+      aria-live="polite"
+      class="hidden rounded-md border p-4 text-sm"
     >
-      <span data-button-label>Nachricht senden</span>
-    </button>
-    <p class="text-xs text-ink-muted">* Pflichtfelder</p>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-4">
+      <button
+        type="submit"
+        id="submit-button"
+        class="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3.5 text-base disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+      >
+        <span data-button-label>Nachricht senden</span>
+      </button>
+      <p class="text-xs text-ink-muted">* Pflichtfelder</p>
+    </div>
   </div>
 </form>
 
@@ -129,11 +173,29 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
   const submitButton = document.getElementById('submit-button') as HTMLButtonElement | null;
   const buttonLabel = submitButton?.querySelector('[data-button-label]');
 
+  const regionSelect = document.getElementById('region') as HTMLSelectElement | null;
+  const blockedNotice = document.getElementById('region-blocked-notice');
+  const fieldsBelowRegion = document.getElementById('form-fields-below-region');
+  const blockedRegions = new Set(['duisburg', 'kreis-wesel', 'kreis-kleve']);
+
+  function isRegionBlocked(): boolean {
+    return Boolean(regionSelect && blockedRegions.has(regionSelect.value));
+  }
+
+  function updateRegionGate() {
+    const blocked = isRegionBlocked();
+    blockedNotice?.classList.toggle('hidden', !blocked);
+    fieldsBelowRegion?.classList.toggle('hidden', blocked);
+  }
+
+  regionSelect?.addEventListener('change', updateRegionGate);
+  updateRegionGate();
+
   if (form && statusBox && submitButton && buttonLabel) {
     const mailtoTarget = form.dataset.mailtoTarget ?? '';
     let isSubmitting = false;
 
-    const requiredFields = ['name', 'email', 'message', 'consent'];
+    const requiredFields = ['name', 'email', 'region', 'message', 'consent'];
 
     function clearErrors() {
       form?.querySelectorAll('[data-error-for]').forEach((el) => el.classList.add('hidden'));
@@ -165,6 +227,12 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (email && !emailPattern.test(email)) {
         showFieldError('email');
+        valid = false;
+      }
+
+      // Zweite Absicherung neben dem UI-Gate: Ein Absenden mit gesperrter Region
+      // wird auch dann verhindert, wenn die versteckten Felder technisch mitgeschickt würden.
+      if (isRegionBlocked()) {
         valid = false;
       }
 

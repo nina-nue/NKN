@@ -5,9 +5,9 @@ export interface Problem {
 
 export const problems: Problem[] = [
   {
-    situation: 'Alle reden über KI, keiner weiß, wo anfangen.',
+    situation: 'Alle reden über KI, das Team reagiert mit Unsicherheit.',
     response:
-      'Eine KI-Potenzialanalyse entlang der tatsächlichen Prozesse in Ihrem Unternehmen — statt Tool-Empfehlungen von der Stange.',
+      'Eine psychologische Diagnostik zu Akzeptanz, Unsicherheit und Belastung im Team — mit validierten Instrumenten, bevor Ressourcen in die falsche Richtung fließen.',
   },
   {
     situation: 'Ein Tool wurde eingeführt. Genutzt wird es nicht.',
