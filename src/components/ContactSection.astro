@@ -51,11 +51,49 @@ import { Mail, Calendar } from '@lucide/astro';
             </a>
             ).
           </p>
+
+          <div class="mt-4">
+            <label for="booking-region" class="block text-sm font-medium text-ink"
+              >In welcher Region ist Ihr Unternehmen ansässig? *</label
+            >
+            <select
+              id="booking-region"
+              required
+              class="mt-1.5 w-full rounded-md border border-border bg-surface-raised px-4 py-2.5 text-ink transition-colors focus:border-primary"
+            >
+              <option value="">Bitte wählen</option>
+              <option value="duisburg">Duisburg</option>
+              <option value="kreis-wesel">Kreis Wesel</option>
+              <option value="kreis-kleve">Kreis Kleve</option>
+              <option value="andere">Andere Region</option>
+            </select>
+          </div>
+
+          <div id="booking-blocked-notice" class="mt-4 hidden text-sm text-ink-soft">
+            <p>
+              Für Unternehmen aus dieser Region nehme ich aktuell keine Aufträge an — mehr dazu
+              auf der{' '}
+              <a href="/transparenz" class="underline underline-offset-2 hover:text-primary">
+                Transparenz-Seite
+              </a>. Es gibt für diese Region ein kostenfreies, öffentlich gefördertes
+              Beratungsangebot zum Thema KI:{' '}
+              <a
+                href="https://linktr.ee/KIfuerKMU"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="underline underline-offset-2 hover:text-primary"
+              >
+                linktr.ee/KIfuerKMU
+              </a>.
+            </p>
+          </div>
+
           <a
             href={site.calendlyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="btn-primary mt-4 inline-block px-5 py-2.5 text-sm"
+            id="booking-cta"
+            class="btn-primary mt-4 hidden px-5 py-2.5 text-sm"
           >
             Termin direkt buchen
           </a>
@@ -73,3 +111,21 @@ import { Mail, Calendar } from '@lucide/astro';
   ...
   <CalendlyEmbed />  statt des Buttons oben einsetzen.
 -->
+
+<script>
+  const bookingRegion = document.getElementById('booking-region') as HTMLSelectElement | null;
+  const bookingCta = document.getElementById('booking-cta');
+  const bookingBlockedNotice = document.getElementById('booking-blocked-notice');
+  const blockedBookingRegions = new Set(['duisburg', 'kreis-wesel', 'kreis-kleve']);
+
+  function updateBookingGate() {
+    const value = bookingRegion?.value ?? '';
+    const blocked = blockedBookingRegions.has(value);
+    const chosen = value !== '';
+    bookingBlockedNotice?.classList.toggle('hidden', !blocked);
+    bookingCta?.classList.toggle('hidden', !(chosen && !blocked));
+  }
+
+  bookingRegion?.addEventListener('change', updateBookingGate);
+  updateBookingGate();
+</script>

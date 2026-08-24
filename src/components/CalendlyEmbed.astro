@@ -8,12 +8,52 @@
  * Calendly-Skript wird erst nach ausdrücklicher Zustimmung geladen (Klick
  * auf „Calendly laden") — nicht automatisch, da Calendly Cookies setzt und
  * Daten in die USA überträgt.
+ *
+ * Regionsabfrage (Compliance, siehe /transparenz): Der Buchungsschritt ist einer
+ * Pflichtabfrage zur Unternehmensregion vorgeschaltet. Bei Duisburg, Kreis Wesel
+ * oder Kreis Kleve bleibt „Calendly laden" verborgen, stattdessen erscheint ein
+ * Hinweis auf das kostenfreie regionale Angebot.
  */
 import { site } from '../data/site';
 ---
 
 <div id="calendly-slot" class="rounded-lg border border-border bg-surface-alt p-6">
-  <div id="calendly-placeholder">
+  <div id="calendly-region-gate">
+    <label for="calendly-region" class="block text-sm font-medium text-ink"
+      >In welcher Region ist Ihr Unternehmen ansässig? *</label
+    >
+    <select
+      id="calendly-region"
+      required
+      class="mt-1.5 w-full rounded-md border border-border bg-surface-raised px-4 py-2.5 text-ink transition-colors focus:border-primary"
+    >
+      <option value="">Bitte wählen</option>
+      <option value="duisburg">Duisburg</option>
+      <option value="kreis-wesel">Kreis Wesel</option>
+      <option value="kreis-kleve">Kreis Kleve</option>
+      <option value="andere">Andere Region</option>
+    </select>
+  </div>
+
+  <div id="calendly-blocked-notice" class="mt-4 hidden text-sm text-ink-soft">
+    <p>
+      Für Unternehmen aus dieser Region nehme ich aktuell keine Aufträge an — mehr dazu auf der{' '}
+      <a href="/transparenz" class="underline underline-offset-2 hover:text-primary">
+        Transparenz-Seite
+      </a>. Es gibt für diese Region ein kostenfreies, öffentlich gefördertes Beratungsangebot zum
+      Thema KI:{' '}
+      <a
+        href="https://linktr.ee/KIfuerKMU"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline underline-offset-2 hover:text-primary"
+      >
+        linktr.ee/KIfuerKMU
+      </a>.
+    </p>
+  </div>
+
+  <div id="calendly-placeholder" class="mt-4 hidden">
     <p class="text-sm text-ink-soft">
       Für die Terminbuchung wird Calendly geladen. Dabei werden Daten an Calendly, USA, übertragen.
     </p>
@@ -39,6 +79,24 @@ import { site } from '../data/site';
 </div>
 
 <script define:vars={{ calendlyUrl: site.calendlyUrl }} is:inline>
+  const calendlyRegion = document.getElementById('calendly-region');
+  const calendlyBlockedNotice = document.getElementById('calendly-blocked-notice');
+  const calendlyPlaceholder = document.getElementById('calendly-placeholder');
+  const blockedCalendlyRegions = new Set(['duisburg', 'kreis-wesel', 'kreis-kleve']);
+
+  function updateCalendlyRegionGate() {
+    const value = calendlyRegion?.value ?? '';
+    const blocked = blockedCalendlyRegions.has(value);
+    const chosen = value !== '';
+    calendlyBlockedNotice?.classList.toggle('hidden', !blocked);
+    calendlyPlaceholder?.classList.toggle('hidden', !(chosen && !blocked));
+  }
+
+  calendlyRegion?.addEventListener('change', updateCalendlyRegionGate);
+  updateCalendlyRegionGate();
+
+  // Das Calendly-Skript wird ausschließlich durch diesen Klick nachgeladen — vorher fließen
+  // keine Daten an Calendly. Der Button ist erst nach Wahl einer nicht gesperrten Region sichtbar.
   document.getElementById('load-calendly')?.addEventListener('click', () => {
     const placeholder = document.getElementById('calendly-placeholder');
     const widget = document.getElementById('calendly-inline-widget');
